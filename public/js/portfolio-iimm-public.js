@@ -45,7 +45,7 @@
 			},
 			beforeSend: function() {
 
-				page.append(`
+				page.html(`
 					<div class="portfolio-loader">
 						<div class="loader"></div>
 					</div>
@@ -69,7 +69,7 @@
 		});
 
 		function loadDataLocal(){
-			if(localStorage.key("portfolio")) {
+			if(localStorage.getItem("portfolio")) {
 				var data = localStorage.getItem("portfolio");
 				var localWorks = JSON.parse(data);
 				renderHTML(localWorks);
