@@ -47,7 +47,7 @@
 
 				page.html(`
 					<div class="portfolio-loader">
-						<div class="loader"></div>
+						<div class="loader-portfolio"></div>
 					</div>
 				`);
 			},
@@ -78,6 +78,7 @@
 		}
 
 		function renderHTML(works){
+			if(!works) return;
 			page.html("");
 			for (var i = 0; i < works.length; i++) {
 				var work = works[i];
@@ -97,9 +98,10 @@
 			return `
 				<div id="modal-${work.id}" class="modal">
 					<div class="modal-body">
-						<h3>Mod: ${work.title}</h3>
+						<h3>${work.title}</h3>
 						<div class="modal-content">
 							<div class="description">${work.description}</div>
+							${buttonLink(work.link)}
 							<div class="images">
 								${images(work.images)}
 							</div>
@@ -116,19 +118,21 @@
 		function templateCard(work) {
 			return `
 				<div class="card">
-					<div class="card-body">
-						<div class="thumbnails">
-							${thumbnails(work.thumbnails)}
+					<a href="#modal-${work.id}" rel="modal:open" data-toggle="modal-${work.id}">
+						<div class="card-body">
+							<div class="thumbnails">
+								${thumbnails(work.thumbnails)}
+							</div>
+							<div class="content">
+								<h3 class="title">${work.title}</h3>
+								<div class="description">${work.description}</div>
+							</div>
+							<div class="footer">
+								<a href="#modal-${work.id}" class="btn btn-primary" rel="modal:open" data-toggle="modal-${work.id}">Ver más</a>
+								${buttonLink(work.link)}
+							</div>
 						</div>
-						<div class="content">
-							<h3 class="title">${work.title}</h3>
-							<div class="description">${work.description}</div>
-						</div>
-						<div class="footer">
-							<a href="#modal-${work.id}" class="btn btn-primary" rel="modal:open" data-toggle="modal-${work.id}">Ver más</a>
-							${buttonLink(work.link)}
-						</div>
-					</div>
+					<div
 				</div>
 			`;
 		}
@@ -139,7 +143,7 @@
 			for (var i = 0; i < images.length; i++) {
 				var image = images[i];
 				imagesHtml += `
-					<div>
+					<div class="image-caption">
 						<h4>${image.title}</h4>
 						<p>${image.caption}</p>
 						<picture>
