@@ -1,39 +1,9 @@
 (function( $ ) {
 	'use strict';
 
-	/**
-	 * All of the code for your public-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
-
-	$(function() {
+	$(function () {
 		var page = $("#portfolio-iimm");
 		var modals = $("#portfolio-iimm-modals");
-
-		loadDataLocal();
 
 		$.ajax({
 			url: "https://clientes4-iimm.firebaseio.com/portfolio.json",
@@ -46,30 +16,28 @@
 			beforeSend: function() {
 
 				page.html(`
-					<div class="portfolio-loader">
-						<div class="loader-portfolio"></div>
-					</div>
-				`);
+						<div class="portfolio-loader">
+							<div class="loader-portfolio"></div>
+						</div>
+					`);
 			},
-		}).success(
-			function(response) {
-				console.log("Success")
+		}).done(
+			async function(response) {
 				var localWorks = Object.entries(response).map(function([id, data]) {
 					data.id = id;
 					return data;
 				});
 
-				localStorage.setItem("portfolio", JSON.stringify(localWorks));
+				await localStorage.setItem("portfolio", JSON.stringify(localWorks));
 				loadDataLocal();
 
 			}
-		).error(function(response) {
-				console.log("Error")
-				console.error(response);
+		).fail(function(response) {
+			console.error(response);
 		});
 
 		function loadDataLocal(){
-			if(localStorage.getItem("portfolio")) {
+			if(localStorage.getItem("portfolio") !== null){
 				var data = localStorage.getItem("portfolio");
 				var localWorks = JSON.parse(data);
 				renderHTML(localWorks);
@@ -107,7 +75,6 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							${buttonLink(work.link)}
 							<a href="#" rel="modal:close" class="btn btn-primary">Cerrar</a>
 						</div>
 					</div>
@@ -158,13 +125,17 @@
 			var thumbnailsHtml = "";
 			for (var i = 0; i < thumbnails.length; i++) {
 				var thumbnail = thumbnails[i];
-				thumbnailsHtml += `<img class="thumbnail" src="${thumbnail}" alt="${thumbnail}">`;
+				thumbnailsHtml += `
+				<div class="cont-thumbnail" style="background: #f8e790">
+					<div class="gradient"></div>
+					<img class="thumbnail" width="75" height="75" src="${thumbnail.image}" alt="${thumbnail.caption}" title="${thumbnail.caption}">
+				</div>`;
 			}
 			return thumbnailsHtml;
 		}
 
 		function buttonLink(link){
-			if(!link) return "";
+			if(!link || link === " ") return "";
 			return `<a class="btn" href="${link}" target="_blank">Ver en vivo</a>`;
 		}
 
