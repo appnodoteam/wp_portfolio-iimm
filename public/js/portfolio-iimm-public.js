@@ -99,13 +99,14 @@
 								${buttonLink(work.link)}
 							</div>
 						</div>
-					<div
+					</a>
 				</div>
 			`;
 		}
 
 
 		function images(images){
+			if(!images) return "";
 			var imagesHtml = "";
 			for (var i = 0; i < images.length; i++) {
 				var image = images[i];
