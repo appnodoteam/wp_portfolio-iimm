@@ -66,16 +66,19 @@
 			return `
 				<div id="modal-${work.id}" class="modal">
 					<div class="modal-body">
-						<h3>${work.title}</h3>
+						<h2>${work.title}</h2>
 						<div class="modal-content">
 							<div class="description">${work.description}</div>
-							${buttonLink(work.link)}
+							<div class="buttons">
+								${buttonLink(work.link)}
+							</div>
 							<div class="images">
 								${images(work.images)}
 							</div>
-						</div>
-						<div class="modal-footer">
+							<div class="buttons">
+							${buttonLink(work.link)}
 							<a href="#" rel="modal:close" class="btn btn-primary">Cerrar</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -92,7 +95,7 @@
 							</div>
 							<div class="content">
 								<h3 class="title">${work.title}</h3>
-								<div class="description">${work.description}</div>
+								<div class="description">${work.shortDescription}</div>
 							</div>
 							<div class="footer">
 								<a href="#modal-${work.id}" class="btn btn-primary" rel="modal:open" data-toggle="modal-${work.id}">Ver más</a>
@@ -112,11 +115,8 @@
 				var image = images[i];
 				imagesHtml += `
 					<div class="image-caption">
-						<h4>${image.title}</h4>
-						<p>${image.caption}</p>
-						<picture>
-							<img class="image" src="${image.image}" alt="${image.title}">
-						</picture>
+						<h5>${image.title}</h5>
+						<img class="image" src="${image.image}" alt="${image.caption}">
 					</div>`;
 			}
 			return imagesHtml;
