@@ -144,6 +144,27 @@
     text-decoration: none;
     text-transform: uppercase;
 }
+.portfolio .card .tags, #portfolio-iimm-tags{
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    grid-gap: 5px;
+
+}
+.portfolio .card .tags .badge,.main-tags{
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+    border: 2px solid #009efb;
+    color: #222831;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    break-inside: avoid;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
 
 .modal{
     min-width: 850px;

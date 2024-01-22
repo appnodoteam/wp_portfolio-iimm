@@ -18,6 +18,7 @@ class Portfolio_Iimm_Public_Display{
 
     public function porfolio_view(){
 	    $html = '
+        <div id="portfolio-iimm-tags"></div>
         <div id="portfolio-iimm" class="portfolio"></div>
         <div id="portfolio-iimm-modals"></div>
         ';

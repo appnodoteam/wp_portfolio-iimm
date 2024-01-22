@@ -4,6 +4,26 @@
 	$(function () {
 		var page = $("#portfolio-iimm");
 		var modals = $("#portfolio-iimm-modals");
+		var portfolioTags = $("#portfolio-iimm-tags");
+
+		var allTags = [];
+
+		$.ajax({
+			url: "https://clientes4-iimm.firebaseio.com/tags.json",
+			method: "GET",
+			timeout: 0,
+			headers: {
+				"Content-Type": "application/json",
+				"Accept": "application/json"
+			}
+		}).done(function(response) {
+			allTags = Object.entries(response).map(function ([id, data]) {
+				data.id = id;
+				return data;
+			});
+			console.log(allTags);
+			renderTags(allTags);
+		});
 
 		$.ajax({
 			url: "https://clientes4-iimm.firebaseio.com/portfolio.json",
@@ -23,9 +43,14 @@
 			},
 		}).done(
 			async function(response) {
-				var localWorks = Object.entries(response).map(function([id, data]) {
+				const localWorks = Object.entries(response).map(function ([id, data]) {
 					data.id = id;
 					return data;
+				});
+
+				// sort by data.order
+				localWorks.sort(function(a, b) {
+					return a.order - b.order;
 				});
 
 				await localStorage.setItem("portfolio", JSON.stringify(localWorks));
@@ -35,13 +60,33 @@
 		).fail(function(response) {
 			console.error(response);
 		});
+		function renderTags(tags){
+			if(!tags) return;
+			portfolioTags.html(allTags.map(function(tag){
+				return `<span class="main-tags" title="${tag.name}" data-name="${tag.name}">${tag.name}</span>`;
+			}));
+		}
 
-		function loadDataLocal(){
-			if(localStorage.getItem("portfolio") !== null){
-				var data = localStorage.getItem("portfolio");
-				var localWorks = JSON.parse(data);
-				renderHTML(localWorks);
-				renderModal(localWorks);
+		portfolioTags.on("click", ".main-tags", function(){
+			console.log($(this).data("name"));
+			loadDataLocal($(this).data("name"));
+		});
+
+		function loadDataLocal(filter){
+			if (localStorage.getItem("portfolio") !== null) {
+				let data = localStorage.getItem("portfolio");
+				let localWorks = JSON.parse(data);
+				let lwf = localWorks;
+				if(filter){
+					lwf = localWorks.filter(function(work){
+						return work.tags.includes(filter);
+					});
+				}
+				if(lwf.length === 0){
+					lwf = localWorks;
+				}
+				renderHTML(lwf);
+				renderModal(lwf);
 			}
 		}
 
@@ -135,8 +180,8 @@
 			return thumbnailsHtml;
 		}
 
-		function buttonLink(link){
-			if(!link || link === " ") return "";
+		function buttonLink(link) {
+			if (!link || link === " ") return "";
 			return `<a class="btn" href="${link}" target="_blank">Ver en vivo</a>`;
 		}
 

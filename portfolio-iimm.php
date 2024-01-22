@@ -16,7 +16,7 @@
  * Plugin Name:       Portfolio IIMM
  * Plugin URI:        https://plugins.iimm.biz/portfolio-iimm
  * Description:       Plugin wordpress para mostrar el portfolio de Industrias Multimedia
- * Version:           1.0.5
+ * Version:           1.0.6
  * Author:            Baldomero Cho
  * Author URI:        https://datogedon.com/
  * License:           GPL-2.0+
