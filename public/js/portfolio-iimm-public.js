@@ -21,7 +21,6 @@
 				data.id = id;
 				return data;
 			});
-			console.log(allTags);
 			renderTags(allTags);
 		});
 
@@ -68,7 +67,6 @@
 		}
 
 		portfolioTags.on("click", ".main-tags", function(){
-			console.log($(this).data("name"));
 			loadDataLocal($(this).data("name"));
 		});
 
