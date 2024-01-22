@@ -166,7 +166,7 @@
 
 }
 #portfolio-iimm-tags{
-    margin-top: 10px;
+    margin: 10px 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
     grid-gap: 5px;
